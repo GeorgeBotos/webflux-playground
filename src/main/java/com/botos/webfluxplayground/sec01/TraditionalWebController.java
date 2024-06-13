@@ -26,4 +26,14 @@ public class TraditionalWebController {
 		log.info("received response: {}", products);
 		return products;
 	}
+
+	@GetMapping("products2")
+	public List<Product> getProducts2() {
+		var products = restClient.get()
+		                         .uri("http://localhost:7070/demo01/products/notorious")
+		                         .retrieve()
+		                         .body(new ParameterizedTypeReference<List<Product>>() {});
+		log.info("received response: {}", products);
+		return products;
+	}
 }
