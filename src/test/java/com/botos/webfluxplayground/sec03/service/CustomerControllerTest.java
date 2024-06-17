@@ -118,6 +118,5 @@ class CustomerControllerTest {
 		      .exchange()
 		      .expectStatus().is4xxClientError()
 		      .expectBody().isEmpty();
-
 	}
 }
