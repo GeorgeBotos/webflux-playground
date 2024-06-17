@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +36,20 @@ public class ProductRepositoryTest {
 			                 assertEquals("apple watch", productEntity.description());
 			                 assertEquals(400, productEntity.price());
 		                 })
+		                 .verifyComplete();
+
+	}
+
+	@Test
+	@DisplayName("")
+	void testFindByPageable() {
+		productRepository.findBy(PageRequest.of(0, 3)
+		                                    .withSort(Sort.by("price")
+		                                                  .ascending()))
+		                 .as(StepVerifier::create)
+		                 .assertNext(productEntity -> assertEquals(200, productEntity.price()))
+		                 .assertNext(productEntity -> assertEquals(250, productEntity.price()))
+		                 .assertNext(productEntity -> assertEquals(300, productEntity.price()))
 		                 .verifyComplete();
 
 	}

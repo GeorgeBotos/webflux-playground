@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 		"sec=sec02",
 		"logging.level.org.springframework.r2dbc=DEBUG"
 })
-public class Lec01CustomerRepositoryTest {
+public class CustomerRepositoryTest {
 
-	private static final Logger log = LoggerFactory.getLogger(Lec01CustomerRepositoryTest.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomerRepositoryTest.class);
 
 	@Autowired
 	private CustomerRepository customerRepository;
