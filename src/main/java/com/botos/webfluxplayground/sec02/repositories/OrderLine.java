@@ -1,9 +1,11 @@
 package com.botos.webfluxplayground.sec02.repositories;
 
+import org.springframework.data.annotation.Id;
+
 import java.time.Instant;
 import java.util.UUID;
 
-public record OrderLine(UUID orderId,
+public record OrderLine(@Id UUID orderId,
 
                         String customerName,
 

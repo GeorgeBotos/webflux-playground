@@ -11,14 +11,11 @@ import java.util.UUID;
 public interface OrderRepository extends ReactiveCrudRepository<OrderEntity, UUID> {
 
 	@Query("""
-	       select
-	           P.*
-	       from
-	           CUSTOMER C
+	       select P.*
+	       from CUSTOMER C
 	       inner join CUSTOMER_ORDER CO on C.ID = CO.CUSTOMER_ID
 	       inner join PRODUCT P on CO.PRODUCT_ID = P.ID
-	       where
-	           C.NAME = :NAME""")
+	       where C.NAME = :NAME""")
 	Flux<ProductEntity> getProductsOrderedByCustomer(String name);
 
 	@Query("""

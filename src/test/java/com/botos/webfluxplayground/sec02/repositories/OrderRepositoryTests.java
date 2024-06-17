@@ -28,7 +28,7 @@ public class OrderRepositoryTests {
 	}
 
 	@Test
-	@DisplayName("")
+	@DisplayName("Test if getOrderDetailsByProduct() returns the correct orderLines")
 	void orderDetailsByProduct() {
 		orderRepository.getOrderDetailsByProduct("iphone 20")
 		               .as(StepVerifier::create)
