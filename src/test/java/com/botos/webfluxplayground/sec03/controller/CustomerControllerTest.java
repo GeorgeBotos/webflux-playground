@@ -1,4 +1,4 @@
-package com.botos.webfluxplayground.sec03.service;
+package com.botos.webfluxplayground.sec03.controller;
 
 import com.botos.webfluxplayground.sec03.domain.Customer;
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +97,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	@DisplayName("")
+	@DisplayName("test error responses")
 	void customerNotFound() {
 		client.get()
 		      .uri("/customers/11")
