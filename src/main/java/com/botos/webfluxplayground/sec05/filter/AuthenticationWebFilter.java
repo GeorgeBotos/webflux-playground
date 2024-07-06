@@ -1,5 +1,7 @@
 package com.botos.webfluxplayground.sec05.filter;
 
+import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -9,8 +11,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
-import java.util.Objects;
+
 
 @RequiredArgsConstructor
 @Order(1)
@@ -32,8 +33,6 @@ public class AuthenticationWebFilter implements WebFilter {
 					.put("category", TOKEN_CATEGORY_MAP.get(token));
 			return chain.filter(exchange);
 		}
-//		return Mono.fromRunnable(() -> exchange.getResponse()
-//		                                       .setStatusCode(HttpStatus.UNAUTHORIZED));
 		return filterErrorHandler.sendProblemDetails(exchange, HttpStatus.UNAUTHORIZED, "Set the valid token");
 	}
 }
