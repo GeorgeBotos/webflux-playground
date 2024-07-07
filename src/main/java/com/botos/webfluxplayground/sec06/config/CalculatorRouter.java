@@ -21,14 +21,10 @@ public class CalculatorRouter {
 	@Bean
 	public RouterFunction<ServerResponse> routeCalculator() {
 		return RouterFunctions.route()
-		                      .filter(((request, next) -> {
-			                      if (Objects.equals(request.pathVariable("b"), "0")) {
-				                      return ServerResponse.badRequest()
-				                                           .bodyValue("The second parameter cannot be null");
-			                      } else {
-				                      return next.handle(request);
-			                      }
-		                      }))
+		                      .filter(((request, next) -> Objects.equals(request.pathVariable("b"), "0")
+		                                                  ? ServerResponse.badRequest()
+		                                                                  .bodyValue("The second parameter cannot be null")
+		                                                  : next.handle(request)))
 		                      .path("calculator/{a}/{b}", this::routeOperation)
 		                      .build();
 	}
@@ -39,7 +35,7 @@ public class CalculatorRouter {
 		                      .GET(isOperation("-"), calculatorRequestHandler.handle((a, b) -> a - b))
 		                      .GET(isOperation("*"), calculatorRequestHandler.handle((a, b) -> a * b))
 		                      .GET(isOperation("/"), calculatorRequestHandler.handle((a, b) -> a / b))
-		                      .GET(badRequest("operation header should be + - * /"))
+		                      .GET(badRequest())
 		                      .build();
 	}
 
@@ -47,8 +43,8 @@ public class CalculatorRouter {
 		return RequestPredicates.headers(headers -> Objects.equals(headers.firstHeader("operation"), operation));
 	}
 
-	private HandlerFunction<ServerResponse> badRequest(String message) {
+	private HandlerFunction<ServerResponse> badRequest() {
 		return request -> ServerResponse.badRequest()
-		                                .bodyValue(message);
+		                                .bodyValue("operation header should be + - * /");
 	}
 }
