@@ -21,14 +21,23 @@ public class RouterConfiguration {
 	@Bean
 	public RouterFunction<ServerResponse> routeCustomer() {
 		return RouterFunctions.route()
-		                      .GET("customers", customerRequestHandler::getAllCustomers)
-		                      .GET("customers/paginated", customerRequestHandler::getPaginatedCustomers)
-		                      .GET("customers/{id}", customerRequestHandler::getCustomer)
+		                      .filter(((request, next) -> next.handle(request))) // Passing request to next filter
+		                      .filter(((request, next) -> ServerResponse.badRequest()
+		                                                                .build())) // Returning bad request to all request
+		                      .path("customers", this::rotueGetCustomer)
 		                      .POST("customers", customerRequestHandler::saveCustomer)
 		                      .PUT("customers/{id}", customerRequestHandler::updateCustomer)
 		                      .DELETE("customers/{id}", customerRequestHandler::deleteCustomer)
 		                      .onError(CustomerNotFoundException.class, exceptionHandler::handleException)
 		                      .onError(InvalidInputException.class, exceptionHandler::handleException)
+		                      .build();
+	}
+
+	private RouterFunction<ServerResponse> rotueGetCustomer() {
+		return RouterFunctions.route()
+		                      .GET("paginated", customerRequestHandler::getPaginatedCustomers)
+		                      .GET("{id}", customerRequestHandler::getCustomer)
+		                      .GET(customerRequestHandler::getAllCustomers)
 		                      .build();
 	}
 }

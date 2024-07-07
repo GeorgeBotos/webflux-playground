@@ -1,7 +1,5 @@
 package com.botos.webfluxplayground.sec06.advice;
 
-import com.botos.webfluxplayground.sec06.advice.CustomerNotFoundException;
-import com.botos.webfluxplayground.sec06.advice.InvalidInputException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import java.util.function.Consumer;
 
 @Service
 public class CustomerExceptionHandler {
-
 
 	public Mono<ServerResponse> handleException(CustomerNotFoundException exception, ServerRequest request) {
 		return handleException(HttpStatus.NOT_FOUND, exception, request, problemDetail -> {
