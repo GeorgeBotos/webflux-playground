@@ -21,6 +21,7 @@ public class Lec09ExchangeFilterTest {
 		WebClient.builder()
 		         .baseUrl(BASE_URL)
 		         .filter(generateToken())
+		         .filter(requestLogger())
 		         .build()
 		         .get()
 		         .uri("/lec09/product/{id}", 1)
@@ -42,6 +43,13 @@ public class Lec09ExchangeFilterTest {
 			                                   .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
 			                                   .build();
 			return next.exchange(requestWithAuth);
+		};
+	}
+
+	private ExchangeFilterFunction requestLogger() {
+		return (request, next) -> {
+			log.info("request url - {}: {}", request.method(), request.url());
+			return next.exchange(request);
 		};
 	}
 }
