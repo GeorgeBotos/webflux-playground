@@ -10,7 +10,7 @@ import reactor.test.StepVerifier;
 
 import java.util.UUID;
 
-public class Lec09ExchangeFilterTest {
+class Lec09ExchangeFilterTest {
 
 	private static final String BASE_URL = "http://localhost:7070/demo02";
 
