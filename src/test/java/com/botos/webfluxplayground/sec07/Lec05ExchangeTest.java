@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-class Lec06ExchangeTest {
+class Lec05ExchangeTest {
 
 	private static final String BASE_URL = "http://localhost:7070/demo02";
 
