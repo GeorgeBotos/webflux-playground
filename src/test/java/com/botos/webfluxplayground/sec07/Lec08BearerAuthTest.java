@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.test.StepVerifier;
 
-class Lec07BasicAuthTest {
+class Lec08BearerAuthTest {
 
 	private static final String BASE_URL = "http://localhost:7070/demo02";
 
@@ -16,10 +16,10 @@ class Lec07BasicAuthTest {
 	void basicAuth() {
 		WebClient.builder()
 		         .baseUrl(BASE_URL)
-		         .defaultHeaders(httpHeaders -> httpHeaders.setBasicAuth("java", "secret"))
+		         .defaultHeaders(httpHeaders -> httpHeaders.setBearerAuth("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"))
 		         .build()
 		         .get()
-		         .uri("/lec07/product/{id}", 1)
+		         .uri("/lec08/product/{id}", 1)
 		         .retrieve()
 		         .bodyToMono(Product.class)
 		         .doOnNext(product -> log.info(product.toString()))
