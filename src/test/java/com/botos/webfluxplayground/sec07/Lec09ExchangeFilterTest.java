@@ -18,19 +18,22 @@ public class Lec09ExchangeFilterTest {
 
 	@Test
 	void basicAuth() {
-		WebClient.builder()
-		         .baseUrl(BASE_URL)
-		         .filter(generateToken())
-		         .filter(requestLogger())
-		         .build()
-		         .get()
-		         .uri("/lec09/product/{id}", 1)
-		         .retrieve()
-		         .bodyToMono(Product.class)
-		         .doOnNext(product -> log.info(product.toString()))
-		         .then()
-		         .as(StepVerifier::create)
-		         .verifyComplete();
+		for (int i = 0; i < 6; i++) {
+			WebClient.builder()
+			         .baseUrl(BASE_URL)
+			         .filter(generateToken())
+			         .filter(requestLogger())
+			         .build()
+			         .get()
+			         .uri("/lec09/product/{id}", i)
+			         .attribute("enable-logging", i % 2 == 0)
+			         .retrieve()
+			         .bodyToMono(Product.class)
+			         .doOnNext(product -> log.info(product.toString()))
+			         .then()
+			         .as(StepVerifier::create)
+			         .verifyComplete();
+		}
 	}
 
 	private ExchangeFilterFunction generateToken() {
@@ -48,7 +51,11 @@ public class Lec09ExchangeFilterTest {
 
 	private ExchangeFilterFunction requestLogger() {
 		return (request, next) -> {
-			log.info("request url - {}: {}", request.method(), request.url());
+			var isEnabled = (Boolean) request.attributes()
+			                                 .getOrDefault("enable-logging", false);
+			if (isEnabled) {
+				log.info("request url - {}: {}", request.method(), request.url());
+			}
 			return next.exchange(request);
 		};
 	}
