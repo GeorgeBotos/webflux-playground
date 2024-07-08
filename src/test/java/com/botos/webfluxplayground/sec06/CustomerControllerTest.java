@@ -1,4 +1,4 @@
-package sec06;
+package com.botos.webfluxplayground.sec06;
 
 import com.botos.webfluxplayground.sec03.domain.Customer;
 import org.junit.jupiter.api.DisplayName;

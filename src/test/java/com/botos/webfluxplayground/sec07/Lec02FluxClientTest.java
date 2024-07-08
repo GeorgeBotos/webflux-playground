@@ -1,0 +1,32 @@
+package com.botos.webfluxplayground.sec07;
+
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.test.StepVerifier;
+
+import java.time.Duration;
+
+public class Lec02FluxClientTest {
+
+	private static final String BASE_URL = "http://localhost:7070/demo02";
+
+	private static final Logger log = LoggerFactory.getLogger(Lec01MonoClientTest.class);
+
+	@Test
+	void streamingResponse() throws InterruptedException {
+		WebClient.builder()
+		         .baseUrl(BASE_URL)
+		         .build()
+		         .get()
+		         .uri("/lec02/product/stream")
+		         .retrieve()
+		         .bodyToFlux(Product.class)
+		         .take(Duration.ofSeconds(3))
+		         .doOnNext(product -> log.info(product.toString()))
+		         .then()
+		         .as(StepVerifier::create)
+		         .verifyComplete();
+	}
+}
