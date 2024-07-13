@@ -6,3 +6,10 @@ spring:
   sql:
     init:
       data-locations: classpath:sql/data.sql
+
+#  --  Server side gZip properties  --
+#server:
+#  compression:
+#    enabled: true
+#    min-response-size: 2048
+#    mime-types: application/json,application/xml
